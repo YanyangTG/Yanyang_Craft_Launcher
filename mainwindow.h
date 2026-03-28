@@ -10,6 +10,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QListWidget>
+#include <QStringList>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +29,9 @@ public:
 
     void fadeIn(int duration);
 
+    QString findJavaPath();
+    QStringList findJavaPaths();
+
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
@@ -43,9 +48,12 @@ private slots:
     void onJavaPathChanged();
     void onMemoryValueChanged(int value);
     void onSaveSettingsClicked();
+    void onDownloadModpackClicked();
+    void onDownloadJavaClicked();
 
 private:
     void setupSettingsPage();
+    void setupDownloadPage();
     void loadSettings();
     void saveSettings();
     void switchPage(int index);
@@ -57,13 +65,23 @@ private:
 
     QStackedWidget *contentStack;
     QWidget *settingsPage;
+    QWidget *downloadPage;
 
     QCheckBox *autoStartCheckBox;
     QCheckBox *minimizeToTrayCheckBox;
     QComboBox *themeComboBox;
     QLabel *javaPathLabel;
     QPushButton *javaPathButton;
+    QListWidget *javaPathListWidget;
     QSlider *memorySlider;
     QLabel *memoryValueLabel;
+    QLabel *memoryMaxLabel;
+
+    QComboBox *modpackComboBox;
+    QComboBox *javaComboBox;
+    QPushButton *downloadModpackButton;
+    QPushButton *downloadJavaButton;
+
 };
+
 #endif // MAINWINDOW_H

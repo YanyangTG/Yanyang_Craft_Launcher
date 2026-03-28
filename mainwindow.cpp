@@ -12,6 +12,10 @@
 #include <QSettings>
 #include <QScrollArea>
 #include <QSpinBox>
+#include <QProcess>
+#include <QDir>
+#include <QDesktopServices>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -79,13 +83,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     homeLayout->addLayout(bottomLayout);
 
-
     setupSettingsPage();
+    setupDownloadPage();
 
     contentStack->addWidget(homePage);
     contentStack->addWidget(settingsPage);
+    contentStack->addWidget(downloadPage);
 
     loadSettings();
+
 }
 
 MainWindow::~MainWindow()
@@ -205,6 +211,7 @@ void MainWindow::setupSettingsPage()
         "color: #333333;"
         "}"
     );
+
     QVBoxLayout *javaLayout = new QVBoxLayout(javaGroup);
     javaLayout->setSpacing(15);
 
@@ -227,10 +234,63 @@ void MainWindow::setupSettingsPage()
         "background-color: #2d9ddb;"
         "}"
     );
+
+    QPushButton *refreshButton = new QPushButton("刷新");
+    refreshButton->setFixedWidth(80);
+    refreshButton->setStyleSheet(
+        "QPushButton { "
+        "background-color: #4caf50; "
+        "color: white; "
+        "border: none; "
+        "border-radius: 5px; "
+        "padding: 8px 15px; "
+        "font-size: 14px;"
+        "} "
+        "QPushButton:hover { "
+        "background-color: #45a049;"
+        "}"
+    );
+
     javaPathLayout->addWidget(javaPathLabel, 1);
+    javaPathLayout->addWidget(refreshButton);
     javaPathLayout->addWidget(javaPathButton);
 
+    javaPathListWidget = new QListWidget();
+    javaPathListWidget->setMaximumHeight(150);
+    javaPathListWidget->setStyleSheet(
+        "QListWidget { "
+        "background-color: #f5f5f5; "
+        "border: 1px solid #e0e0e0; "
+        "border-radius: 5px; "
+        "padding: 5px;"
+        "} "
+        "QListWidget::item { "
+        "padding: 8px; "
+        "border-bottom: 1px solid #e0e0e0;"
+        "} "
+        "QListWidget::item:selected { "
+        "background-color: #e3f2fd; "
+        "color: #333333;"
+        "} "
+        "QListWidget::item:hover { "
+        "background-color: #e8eaf6;"
+        "}"
+    );
+
     javaLayout->addLayout(javaPathLayout);
+    javaLayout->addWidget(javaPathListWidget);
+
+    connect(refreshButton, &QPushButton::clicked, this, [this]() {
+        javaPathListWidget->clear();
+        QStringList javaPaths = findJavaPaths();
+        for (const QString &path : javaPaths) {
+            javaPathListWidget->addItem(path);
+        }
+        if (javaPathListWidget->count() > 0) {
+            javaPathListWidget->setCurrentRow(0);
+            javaPathLabel->setText(javaPathListWidget->currentItem()->text());
+        }
+    });
 
     QGroupBox *memoryGroup = new QGroupBox("内存分配");
     memoryGroup->setStyleSheet(
@@ -395,6 +455,216 @@ void MainWindow::setupSettingsPage()
             this, &MainWindow::onSaveSettingsClicked);
 }
 
+void MainWindow::setupDownloadPage()
+{
+    downloadPage = new QWidget();
+    QVBoxLayout *mainLayout = new QVBoxLayout(downloadPage);
+    mainLayout->setSpacing(20);
+    mainLayout->setContentsMargins(30, 30, 30, 30);
+
+    QScrollArea *scrollArea = new QScrollArea();
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setFrameShape(QScrollArea::NoFrame);
+    scrollArea->setStyleSheet("background-color: transparent;");
+
+    QWidget *scrollContent = new QWidget();
+    QVBoxLayout *scrollLayout = new QVBoxLayout(scrollContent);
+    scrollLayout->setSpacing(20);
+    scrollLayout->setContentsMargins(10, 10, 10, 10);
+
+    QGroupBox *modpackGroup = new QGroupBox("整合包下载");
+    modpackGroup->setStyleSheet(
+        "QGroupBox { "
+        "background-color: #ffffff; "
+        "border: 1px solid #e0e0e0; "
+        "border-radius: 8px; "
+        "margin-top: 10px; "
+        "padding: 15px; "
+        "font-weight: bold;"
+        "} "
+        "QGroupBox::title { "
+        "subcontrol-origin: margin; "
+        "left: 15px; "
+        "padding: 0 5px; "
+        "color: #333333;"
+        "}"
+    );
+    QVBoxLayout *modpackLayout = new QVBoxLayout(modpackGroup);
+    modpackLayout->setSpacing(15);
+
+    QHBoxLayout *modpackSelectLayout = new QHBoxLayout();
+    QLabel *modpackLabel = new QLabel("整合包选择:");
+    modpackLabel->setStyleSheet("font-size: 14px;");
+
+    modpackComboBox = new QComboBox();
+    modpackComboBox->addItem("官方整合包", "official");
+    modpackComboBox->addItem("深水优化整合包", "shenshui");
+    modpackComboBox->setFixedWidth(200);
+    modpackComboBox->setStyleSheet(
+        "QComboBox { "
+        "background-color: #f5f5f5; "
+        "border: 1px solid #e0e0e0; "
+        "border-radius: 5px; "
+        "padding: 8px; "
+        "font-size: 14px;"
+        "} "
+        "QComboBox::drop-down { "
+        "border: none; "
+        "width: 30px;"
+        "} "
+        "QComboBox::down-arrow { "
+        "image: none; "
+        "border: none;"
+        "}"
+    );
+
+    modpackSelectLayout->addWidget(modpackLabel);
+    modpackSelectLayout->addWidget(modpackComboBox);
+    modpackSelectLayout->addStretch();
+
+    modpackLayout->addLayout(modpackSelectLayout);
+
+    downloadModpackButton = new QPushButton("下载整合包");
+    downloadModpackButton->setFixedHeight(45);
+    downloadModpackButton->setStyleSheet(
+        "QPushButton { "
+        "background-color: #4caf50; "
+        "color: white; "
+        "border: none; "
+        "border-radius: 8px; "
+        "padding: 10px 20px; "
+        "font-size: 16px; "
+        "font-weight: bold;"
+        "} "
+        "QPushButton:hover { "
+        "background-color: #45a049;"
+        "} "
+        "QPushButton:pressed { "
+        "background-color: #3d8b40;"
+        "}"
+    );
+
+    modpackLayout->addWidget(downloadModpackButton);
+
+    QGroupBox *javaGroup = new QGroupBox("Java 下载");
+    javaGroup->setStyleSheet(
+        "QGroupBox { "
+        "background-color: #ffffff; "
+        "border: 1px solid #e0e0e0; "
+        "border-radius: 8px; "
+        "margin-top: 10px; "
+        "padding: 15px; "
+        "font-weight: bold;"
+        "} "
+        "QGroupBox::title { "
+        "subcontrol-origin: margin; "
+        "left: 15px; "
+        "padding: 0 5px; "
+        "color: #333333;"
+        "}"
+    );
+    QVBoxLayout *javaLayout = new QVBoxLayout(javaGroup);
+    javaLayout->setSpacing(15);
+
+    QHBoxLayout *javaSelectLayout = new QHBoxLayout();
+    QLabel *javaVersionLabel = new QLabel("Java 版本选择:");
+    javaVersionLabel->setStyleSheet("font-size: 14px;");
+
+    javaComboBox = new QComboBox();
+    javaComboBox->addItem("Java 21 (JDK 21)", "21");
+    javaComboBox->addItem("Java 25 (JDK 25)", "25");
+    javaComboBox->setFixedWidth(200);
+    javaComboBox->setStyleSheet(
+        "QComboBox { "
+        "background-color: #f5f5f5; "
+        "border: 1px solid #e0e0e0; "
+        "border-radius: 5px; "
+        "padding: 8px; "
+        "font-size: 14px;"
+        "} "
+        "QComboBox::drop-down { "
+        "border: none; "
+        "width: 30px;"
+        "} "
+        "QComboBox::down-arrow { "
+        "image: none; "
+        "border: none;"
+        "}"
+    );
+
+    javaSelectLayout->addWidget(javaVersionLabel);
+    javaSelectLayout->addWidget(javaComboBox);
+    javaSelectLayout->addStretch();
+
+    javaLayout->addLayout(javaSelectLayout);
+
+    downloadJavaButton = new QPushButton("下载 Java");
+    downloadJavaButton->setFixedHeight(45);
+    downloadJavaButton->setStyleSheet(
+        "QPushButton { "
+        "background-color: #2196f3; "
+        "color: white; "
+        "border: none; "
+        "border-radius: 8px; "
+        "padding: 10px 20px; "
+        "font-size: 16px; "
+        "font-weight: bold;"
+        "} "
+        "QPushButton:hover { "
+        "background-color: #1e88e5;"
+        "} "
+        "QPushButton:pressed { "
+        "background-color: #1976d2;"
+        "}"
+    );
+
+    javaLayout->addWidget(downloadJavaButton);
+
+    scrollLayout->addWidget(modpackGroup);
+    scrollLayout->addWidget(javaGroup);
+    scrollLayout->addStretch();
+
+    scrollArea->setWidget(scrollContent);
+    mainLayout->addWidget(scrollArea);
+
+    connect(downloadModpackButton, &QPushButton::clicked, this, &MainWindow::onDownloadModpackClicked);
+    connect(downloadJavaButton, &QPushButton::clicked, this, &MainWindow::onDownloadJavaClicked);
+}
+
+void MainWindow::onDownloadModpackClicked()
+{
+    QString modpackType = modpackComboBox->currentData().toString();
+    QString modpackName = modpackComboBox->currentText();
+
+    QString downloadUrl;
+    if (modpackType == "official") {
+        downloadUrl = "https://example.com/official-modpack.zip";
+    } else if (modpackType == "shenshui") {
+        downloadUrl = "https://example.com/shenshui-modpack.zip";
+    }
+
+    QMessageBox::information(this, "下载整合包", "即将下载：" + modpackName + "\n下载地址：" + downloadUrl);
+
+    QDesktopServices::openUrl(QUrl(downloadUrl));
+}
+
+void MainWindow::onDownloadJavaClicked()
+{
+    QString javaVersion = javaComboBox->currentData().toString();
+    QString javaName = javaComboBox->currentText();
+
+    QString downloadUrl;
+    if (javaVersion == "21") {
+        downloadUrl = "https://www.azul.com/core-post-download/?endpoint=zulu&uuid=180f8cc0-bfb8-4c68-99be-3983102c1c97";
+    } else if (javaVersion == "25") {
+        downloadUrl = "https://www.azul.com/core-post-download/?endpoint=zulu&uuid=1281d8c2-21fa-4e04-8edf-73c14995237a";
+    }
+
+    QMessageBox::information(this, "下载 Java", "即将下载：" + javaName + "\n将自动打开安装包");
+
+    QDesktopServices::openUrl(QUrl(downloadUrl));
+}
+
 void MainWindow::loadSettings()
 {
     QSettings settings("YanyangTech", "YanyangCraftLauncher");
@@ -406,16 +676,110 @@ void MainWindow::loadSettings()
     int themeIndex = (theme == "dark") ? 1 : 0;
     themeComboBox->setCurrentIndex(themeIndex);
 
-    QString javaPath = settings.value("javaPath", "").toString();
-    if (javaPath.isEmpty()) {
-        javaPathLabel->setText("未选择 Java 路径");
-    } else {
-        javaPathLabel->setText(javaPath);
+    QString savedJavaPath = settings.value("javaPath", "").toString();
+
+    javaPathListWidget->clear();
+    QStringList javaPaths = findJavaPaths();
+    for (const QString &path : javaPaths) {
+        javaPathListWidget->addItem(path);
     }
 
-    int memory = settings.value("memory", 2048).toInt();
+    if (!savedJavaPath.isEmpty()) {
+        javaPathLabel->setText(savedJavaPath);
+        QList<QListWidgetItem*> items = javaPathListWidget->findItems(savedJavaPath, Qt::MatchExactly);
+        if (!items.isEmpty()) {
+            javaPathListWidget->setCurrentItem(items.first());
+        }
+    } else if (javaPathListWidget->count() > 0) {
+        javaPathListWidget->setCurrentRow(0);
+        javaPathLabel->setText(javaPathListWidget->currentItem()->text());
+    } else {
+        javaPathLabel->setText("未选择 Java 路径");
+    }
+
+    int memory = settings.value("memory", 4096).toInt();
     memorySlider->setValue(memory);
     memoryValueLabel->setText(QString("%1 MB").arg(memory));
+}
+
+
+QStringList MainWindow::findJavaPaths()
+{
+    QStringList javaPaths;
+    QStringList possiblePaths;
+
+    QString envJavaHome = qgetenv("JAVA_HOME");
+    if (!envJavaHome.isEmpty()) {
+        possiblePaths << envJavaHome + "\\bin\\javaw.exe";
+        possiblePaths << envJavaHome + "\\bin\\java.exe";
+    }
+
+    possiblePaths << "C:\\Program Files\\Java\\jdk*\\bin\\javaw.exe";
+    possiblePaths << "C:\\Program Files\\Java\\jre*\\bin\\javaw.exe";
+    possiblePaths << "C:\\Program Files\\Java\\jdk*\\bin\\java.exe";
+    possiblePaths << "C:\\Program Files\\Java\\jre*\\bin\\java.exe";
+    possiblePaths << "C:\\Program Files (x86)\\Java\\jdk*\\bin\\javaw.exe";
+    possiblePaths << "C:\\Program Files (x86)\\Java\\jre*\\bin\\javaw.exe";
+    possiblePaths << "C:\\Program Files (x86)\\Java\\jdk*\\bin\\java.exe";
+    possiblePaths << "C:\\Program Files (x86)\\Java\\jre*\\bin\\java.exe";
+
+    for (const QString &path : possiblePaths) {
+        if (path.contains("*")) {
+            QFileInfo fileInfo(path);
+            QDir dir = fileInfo.absoluteDir();
+            QString pattern = fileInfo.fileName();
+            dir.setNameFilters(QStringList() << pattern);
+            dir.setFilter(QDir::Dirs);
+
+            QFileInfoList dirs = dir.entryInfoList();
+            for (const QFileInfo &dirInfo : dirs) {
+                QString javaPath = dirInfo.absoluteFilePath() + "\\bin\\javaw.exe";
+                if (QFile::exists(javaPath) && !javaPaths.contains(javaPath)) {
+                    javaPaths << javaPath;
+                }
+
+                javaPath = dirInfo.absoluteFilePath() + "\\bin\\java.exe";
+                if (QFile::exists(javaPath) && !javaPaths.contains(javaPath)) {
+                    javaPaths << javaPath;
+                }
+            }
+        } else {
+            if (QFile::exists(path) && !javaPaths.contains(path)) {
+                javaPaths << path;
+            }
+        }
+    }
+
+    QProcess process;
+    process.start("where javaw.exe");
+    process.waitForFinished(5000);
+    QByteArray output = process.readAllStandardOutput();
+    if (!output.isEmpty()) {
+        QString lines = QString::fromLocal8Bit(output).trimmed();
+        QStringList pathList = lines.split("\r\n");
+        for (const QString &line : pathList) {
+            QString javaPath = line.trimmed();
+            if (!javaPath.isEmpty() && QFile::exists(javaPath) && !javaPaths.contains(javaPath)) {
+                javaPaths << javaPath;
+            }
+        }
+    }
+
+    process.start("where java.exe");
+    process.waitForFinished(5000);
+    output = process.readAllStandardOutput();
+    if (!output.isEmpty()) {
+        QString lines = QString::fromLocal8Bit(output).trimmed();
+        QStringList pathList = lines.split("\r\n");
+        for (const QString &line : pathList) {
+            QString javaPath = line.trimmed();
+            if (!javaPath.isEmpty() && QFile::exists(javaPath) && !javaPaths.contains(javaPath)) {
+                javaPaths << javaPath;
+            }
+        }
+    }
+
+    return javaPaths;
 }
 
 void MainWindow::saveSettings()
@@ -490,7 +854,7 @@ void MainWindow::on_versionButton_clicked()
 
 void MainWindow::on_downloadButton_clicked()
 {
-    switchPage(0);
+    switchPage(2);
 }
 
 void MainWindow::on_settingButton_clicked()
