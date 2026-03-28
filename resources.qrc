@@ -1,0 +1,12 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <file>resources/icon.png</file>
+        <file>resources/run.png</file>
+        <file>resources/version.png</file>
+        <file>resources/download.png</file>
+        <file>resources/setting.png</file>
+        <file>resources/minimize.png</file>
+        <file>resources/close.png</file>
+    </qresource>
+</RCC>
