@@ -1,4 +1,4 @@
-QT += core gui widgets
+QT += core gui widgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -6,10 +6,12 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    runmcclient.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    runmcclient.h
 
 FORMS += \
     mainwindow.ui

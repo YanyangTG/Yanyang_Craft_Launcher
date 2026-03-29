@@ -12,6 +12,8 @@
 #include <QStackedWidget>
 #include <QListWidget>
 #include <QStringList>
+#include <QLineEdit>
+#include "runmcclient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -50,6 +52,7 @@ private slots:
     void onSaveSettingsClicked();
     void onDownloadModpackClicked();
     void onDownloadJavaClicked();
+    void onLaunchGameClicked();
 
 private:
     void setupSettingsPage();
@@ -81,6 +84,17 @@ private:
     QComboBox *javaComboBox;
     QPushButton *downloadModpackButton;
     QPushButton *downloadJavaButton;
+
+    // Deleted: QStringList findJavaPaths();
+    QString getJavaVersion(const QString &javaPath);
+
+    RunMcClient *mcClient;
+
+    // 玩家信息控件
+    QComboBox *accountTypeCombo;
+    QLineEdit *playerNameEdit;
+    QLabel *skinLabel;
+    QLabel *loginStatusLabel;
 
 };
 
