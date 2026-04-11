@@ -4,17 +4,31 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
+
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    runmcclient.cpp
+    runmcclient.cpp \
+    homepage.cpp \
+    versionpage.cpp \
+    settingspage.cpp \
+    downloadpage.cpp
 
 HEADERS += \
     mainwindow.h \
-    runmcclient.h
+    runmcclient.h \
+    homepage.h \
+    versionpage.h \
+    settingspage.h \
+    downloadpage.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    homepage.ui \
+    versionpage.ui \
+    settingspage.ui \
+    downloadpage.ui
+
 
 RESOURCES += \
     resources.qrc

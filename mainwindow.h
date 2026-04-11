@@ -4,16 +4,12 @@
 #include <QMainWindow>
 #include <QMouseEvent>
 #include <QPoint>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QSlider>
-#include <QLabel>
-#include <QPushButton>
 #include <QStackedWidget>
-#include <QListWidget>
-#include <QStringList>
-#include <QLineEdit>
 #include "runmcclient.h"
+#include "homepage.h"
+#include "settingspage.h"
+#include "downloadpage.h"
+#include "versionpage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -46,17 +42,14 @@ private slots:
     void on_versionButton_clicked();
     void on_downloadButton_clicked();
     void on_settingButton_clicked();
-    void onThemeChanged(int index);
-    void onJavaPathChanged();
-    void onMemoryValueChanged(int value);
-    void onSaveSettingsClicked();
+    void onLaunchGameClicked();
     void onDownloadModpackClicked();
     void onDownloadJavaClicked();
-    void onLaunchGameClicked();
+    void onSaveSettingsClicked();
+    void onRefreshJavaPaths();
 
 private:
-    void setupSettingsPage();
-    void setupDownloadPage();
+    void setupPages();
     void loadSettings();
     void saveSettings();
     void switchPage(int index);
@@ -67,35 +60,14 @@ private:
     QPoint m_windowPos;
 
     QStackedWidget *contentStack;
-    QWidget *settingsPage;
-    QWidget *downloadPage;
-
-    QCheckBox *autoStartCheckBox;
-    QCheckBox *minimizeToTrayCheckBox;
-    QComboBox *themeComboBox;
-    QLabel *javaPathLabel;
-    QPushButton *javaPathButton;
-    QListWidget *javaPathListWidget;
-    QSlider *memorySlider;
-    QLabel *memoryValueLabel;
-    QLabel *memoryMaxLabel;
-
-    QComboBox *modpackComboBox;
-    QComboBox *javaComboBox;
-    QPushButton *downloadModpackButton;
-    QPushButton *downloadJavaButton;
-
-    // Deleted: QStringList findJavaPaths();
-    QString getJavaVersion(const QString &javaPath);
+    HomePage *homePage;
+    VersionPage *versionPage;
+    SettingsPage *settingsPage;
+    DownloadPage *downloadPage;
 
     RunMcClient *mcClient;
 
-    // 玩家信息控件
-    QComboBox *accountTypeCombo;
-    QLineEdit *playerNameEdit;
-    QLabel *skinLabel;
-    QLabel *loginStatusLabel;
-
+    QString getJavaVersion(const QString &javaPath);
 };
 
 #endif // MAINWINDOW_H

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DownloadPage</class>
+ <widget class="QWidget" name="DownloadPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #f5f5f5;</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>20</number>
+   </property>
+   <property name="leftMargin">
+    <number>30</number>
+   </property>
+   <property name="topMargin">
+    <number>30</number>
+   </property>
+   <property name="rightMargin">
+    <number>30</number>
+   </property>
+   <property name="bottomMargin">
+    <number>30</number>
+   </property>
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
+     <widget class="QWidget" name="scrollContent">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>740</width>
+        <height>540</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="scrollLayout">
+       <property name="spacing">
+        <number>20</number>
+       </property>
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QGroupBox" name="modpackGroup">
+         <property name="title">
+          <string>整合包下载</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QGroupBox {
+background-color: #ffffff;
+border: 1px solid #e0e0e0;
+border-radius: 8px;
+margin-top: 10px;
+padding: 15px;
+font-weight: bold;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+}
+QGroupBox::title {
+subcontrol-origin: margin;
+left: 15px;
+padding: 0 5px;
+color: #333333;
+}</string>
+         </property>
+         <layout class="QVBoxLayout" name="modpackLayout">
+          <property name="spacing">
+           <number>15</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="modpackSelectLayout">
+            <item>
+             <widget class="QLabel" name="modpackLabel">
+              <property name="text">
+               <string>整合包选择:</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font-size: 14px; font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="modpackComboBox">
+              <property name="fixedWidth">
+               <number>200</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>官方高配版整合包</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>官方中配版整合包</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>官方低配版整合包</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>深水优化整合包</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <spacer name="modpackSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="downloadModpackButton">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>45</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>下载整合包</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+background-color: #4caf50;
+color: white;
+border: none;
+border-radius: 8px;
+padding: 10px 20px;
+font-size: 16px;
+font-weight: bold;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+}
+QPushButton:hover {
+background-color: #45a049;
+}
+QPushButton:pressed {
+background-color: #3d8b40;
+}</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="javaGroup">
+         <property name="title">
+          <string>Java 下载</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QGroupBox {
+background-color: #ffffff;
+border: 1px solid #e0e0e0;
+border-radius: 8px;
+margin-top: 10px;
+padding: 15px;
+font-weight: bold;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+}
+QGroupBox::title {
+subcontrol-origin: margin;
+left: 15px;
+padding: 0 5px;
+color: #333333;
+}</string>
+         </property>
+         <layout class="QVBoxLayout" name="javaLayout">
+          <property name="spacing">
+           <number>15</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="javaSelectLayout">
+            <item>
+             <widget class="QLabel" name="javaVersionLabel">
+              <property name="text">
+               <string>Java 版本选择:</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font-size: 14px; font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="javaComboBox">
+              <property name="fixedWidth">
+               <number>200</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>Java 21 (JDK 21)</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Java 25 (JDK 25)</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <spacer name="javaSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="downloadJavaButton">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>45</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>下载 Java</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+background-color: #2196f3;
+color: white;
+border: none;
+border-radius: 8px;
+padding: 10px 20px;
+font-size: 16px;
+font-weight: bold;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+}
+QPushButton:hover {
+background-color: #1e88e5;
+}
+QPushButton:pressed {
+background-color: #1976d2;
+}</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

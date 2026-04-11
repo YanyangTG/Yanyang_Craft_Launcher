@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VersionPage</class>
+ <widget class="QWidget" name="VersionPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #f5f5f5;</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>20</number>
+   </property>
+   <property name="leftMargin">
+    <number>30</number>
+   </property>
+   <property name="topMargin">
+    <number>30</number>
+   </property>
+   <property name="rightMargin">
+    <number>30</number>
+   </property>
+   <property name="bottomMargin">
+    <number>30</number>
+   </property>
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;</string>
+     </property>
+     <widget class="QWidget" name="scrollContent">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>740</width>
+        <height>540</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="scrollLayout">
+       <property name="spacing">
+        <number>20</number>
+       </property>
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QGroupBox" name="versionGroup">
+         <property name="title">
+          <string>已安装版本</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QGroupBox {
+background-color: #ffffff;
+border: 1px solid #e0e0e0;
+border-radius: 8px;
+margin-top: 10px;
+padding: 15px;
+font-weight: bold;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+}
+QGroupBox::title {
+subcontrol-origin: margin;
+left: 15px;
+padding: 0 5px;
+color: #333333;
+}</string>
+         </property>
+         <layout class="QVBoxLayout" name="versionLayout">
+          <property name="spacing">
+           <number>15</number>
+          </property>
+          <item>
+           <widget class="QListWidget" name="versionListWidget">
+            <property name="minimumHeight">
+             <number>200</number>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QListWidget {
+background-color: #f5f5f5;
+border: 1px solid #e0e0e0;
+border-radius: 5px;
+padding: 5px;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+font-size: 14px;
+}
+QListWidget::item {
+padding: 12px 10px;
+border-bottom: 1px solid #e0e0e0;
+color: #666666;
+}
+QListWidget::item:selected {
+background-color: #e3f2fd;
+color: #1976d2;
+}
+QListWidget::item:hover {
+background-color: #e8eaf6;
+}</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="buttonLayout">
+            <item>
+             <widget class="QPushButton" name="installButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>安装新版本</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+background-color: #4caf50;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 8px 20px;
+font-size: 14px;
+font-weight: bold;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+}
+QPushButton:hover {
+background-color: #45a049;
+}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="removeButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>40</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>删除选中版本</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+background-color: #f44336;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 8px 20px;
+font-size: 14px;
+font-weight: bold;
+font-family: 'Source Han Sans CN', '思源黑体', 'Microsoft YaHei', sans-serif;
+}
+QPushButton:hover {
+background-color: #d32f2f;
+}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="buttonSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
