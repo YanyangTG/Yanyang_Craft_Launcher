@@ -35,7 +35,7 @@
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -62,7 +62,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -91,9 +91,6 @@
            <height>16777215</height>
           </size>
          </property>
-         <property name="title">
-          <string>玩家信息</string>
-         </property>
          <property name="styleSheet">
           <string notr="true">QGroupBox {
 background-color: #ffffff;
@@ -109,34 +106,34 @@ padding: 0 5px;
 color: #333333;
 }</string>
          </property>
+         <property name="title">
+          <string>玩家信息</string>
+         </property>
          <layout class="QVBoxLayout" name="playerLayout">
           <property name="spacing">
            <number>15</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="accountTypeLayout">
+           <layout class="QVBoxLayout" name="accountTypeLayout">
             <property name="spacing">
-             <number>10</number>
+             <number>8</number>
             </property>
             <item>
              <widget class="QPushButton" name="microsoftBtn">
               <property name="minimumSize">
                <size>
-                <width>70</width>
-                <height>70</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>70</width>
-                <height>70</height>
+                <width>0</width>
+                <height>20</height>
                </size>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton {
 background-color: #f5f5f5;
 border: 2px solid #e0e0e0;
-border-radius: 10px;
+border-radius: 6px;
+padding: 5px 15px;
+font-size: 13px;
+text-align: left;
 }
 QPushButton:hover {
 background-color: #e8e8e8;
@@ -145,21 +142,12 @@ border: 2px solid #3daee9;
 QPushButton:checked {
 background-color: #e3f2fd;
 border: 2px solid #3daee9;
+color: #1976d2;
+font-weight: bold;
 }</string>
               </property>
               <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources.qrc">
-                <normaloff>:/resources/run.png</normaloff>
-               </iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
+               <string>微软账号 (Mojang账号)</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -173,21 +161,18 @@ border: 2px solid #3daee9;
              <widget class="QPushButton" name="offlineBtn">
               <property name="minimumSize">
                <size>
-                <width>70</width>
-                <height>70</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>70</width>
-                <height>70</height>
+                <width>0</width>
+                <height>20</height>
                </size>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton {
 background-color: #f5f5f5;
 border: 2px solid #e0e0e0;
-border-radius: 10px;
+border-radius: 6px;
+padding: 5px 15px;
+font-size: 13px;
+text-align: left;
 }
 QPushButton:hover {
 background-color: #e8e8e8;
@@ -196,21 +181,12 @@ border: 2px solid #3daee9;
 QPushButton:checked {
 background-color: #e3f2fd;
 border: 2px solid #3daee9;
+color: #1976d2;
+font-weight: bold;
 }</string>
               </property>
               <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources.qrc">
-                <normaloff>:/resources/run.png</normaloff>
-               </iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
+               <string>离线账号</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -221,21 +197,18 @@ border: 2px solid #3daee9;
              <widget class="QPushButton" name="thirdpartyBtn">
               <property name="minimumSize">
                <size>
-                <width>70</width>
-                <height>70</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>70</width>
-                <height>70</height>
+                <width>0</width>
+                <height>20</height>
                </size>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton {
 background-color: #f5f5f5;
 border: 2px solid #e0e0e0;
-border-radius: 10px;
+border-radius: 6px;
+padding: 5px 15px;
+font-size: 13px;
+text-align: left;
 }
 QPushButton:hover {
 background-color: #e8e8e8;
@@ -244,47 +217,18 @@ border: 2px solid #3daee9;
 QPushButton:checked {
 background-color: #e3f2fd;
 border: 2px solid #3daee9;
+color: #1976d2;
+font-weight: bold;
 }</string>
               </property>
               <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="../resources.qrc">
-                <normaloff>:/resources/run.png</normaloff>
-               </iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>32</width>
-                <height>32</height>
-               </size>
+               <string>第三方账号</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="accountTypeLabel">
-            <property name="text">
-             <string>正版账号</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-size: 13px; color: #666666; padding: 5px;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="profileLayout">
-            <property name="spacing">
-             <number>10</number>
-            </property>
             <item>
              <widget class="QLabel" name="skinLabel">
               <property name="minimumSize">
@@ -299,6 +243,9 @@ border: 2px solid #3daee9;
                 <height>64</height>
                </size>
               </property>
+              <property name="layoutDirection">
+               <enum>Qt::LayoutDirection::LeftToRight</enum>
+              </property>
               <property name="styleSheet">
                <string notr="true">QLabel {
 background-color: #f0f0f0;
@@ -309,14 +256,21 @@ border-radius: 8px;
               <property name="text">
                <string>👤</string>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
               <property name="scaledContents">
                <bool>true</bool>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
              </widget>
             </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="profileLayout">
+            <property name="spacing">
+             <number>10</number>
+            </property>
             <item>
              <widget class="QLineEdit" name="playerNameEdit">
               <property name="minimumSize">
@@ -324,9 +278,6 @@ border-radius: 8px;
                 <width>0</width>
                 <height>40</height>
                </size>
-              </property>
-              <property name="placeholderText">
-               <string>输入你的游戏昵称</string>
               </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
@@ -341,20 +292,23 @@ border: 2px solid #3daee9;
 background-color: #ffffff;
 }</string>
               </property>
+              <property name="placeholderText">
+               <string>输入你的游戏昵称</string>
+              </property>
              </widget>
             </item>
            </layout>
           </item>
           <item>
            <widget class="QLabel" name="loginStatusLabel">
+            <property name="styleSheet">
+             <string notr="true">font-size: 13px; color: #999999;</string>
+            </property>
             <property name="text">
              <string>未登录</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-size: 13px; color: #999999;</string>
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -397,8 +351,6 @@ background-color: #1e88e5;
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

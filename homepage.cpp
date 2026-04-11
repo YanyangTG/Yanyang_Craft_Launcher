@@ -12,7 +12,6 @@ HomePage::HomePage(QWidget *parent)
         ui->microsoftBtn->setChecked(true);
         ui->offlineBtn->setChecked(false);
         ui->thirdpartyBtn->setChecked(false);
-        ui->accountTypeLabel->setText("正版账号");
         currentAccountType = "microsoft";
     });
 
@@ -20,7 +19,6 @@ HomePage::HomePage(QWidget *parent)
         ui->offlineBtn->setChecked(true);
         ui->microsoftBtn->setChecked(false);
         ui->thirdpartyBtn->setChecked(false);
-        ui->accountTypeLabel->setText("离线账号");
         currentAccountType = "offline";
     });
 
@@ -28,7 +26,6 @@ HomePage::HomePage(QWidget *parent)
         ui->thirdpartyBtn->setChecked(true);
         ui->microsoftBtn->setChecked(false);
         ui->offlineBtn->setChecked(false);
-        ui->accountTypeLabel->setText("第三方账号");
         currentAccountType = "thirdparty";
     });
 
